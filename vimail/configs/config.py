@@ -10,6 +10,7 @@
     :license: BSD, see LICENSE for more details.
 """
 
+import web
 import io
 import os
 import ConfigParser
@@ -30,9 +31,9 @@ SERVER = {'DEBUG_MODE': bool(config.get("server", "debug")),
           }
 
 # DB variables
-if os.path.isfile('configs/server.cfg'):
+if os.path.isfile('configs/db.cfg'):
     config.read('configs/db.cfg')
-    USER = int(config.get("mysql", "user"))
+    USER = config.get("mysql", "user")
     HOST = config.get("mysql", "host")    
     PASSWD = config.get("mysql", "passwd")
     DB = config.get("mysql", "db")

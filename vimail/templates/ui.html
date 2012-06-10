@@ -1,0 +1,11 @@
+$def with (emails=[])
+
+<div>
+  <ol>
+    $for email in emails:
+      $if email['Subject']:
+        <li>$email['Subject']</li>
+      $else:
+	<li>(no subject)</li>
+  </ol>
+</div>
