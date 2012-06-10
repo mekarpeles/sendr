@@ -1,4 +1,4 @@
-*.pyc
-*.py~
-*.cfg
 localconf.py
+*.cfg
+*.py~
+*.pyc
