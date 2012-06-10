@@ -1,8 +1,0 @@
-$def with (emails=[]):
-
-<div>
-  <ol>
-    $for email in emails:
-      <li></li>
-  </ol>
-</div>
