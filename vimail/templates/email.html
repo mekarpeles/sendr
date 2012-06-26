@@ -23,7 +23,12 @@ $def with (uid, email=None, email_list=None)
     <div class="well">
       <h3><strong>From:</strong> $email['From']</h3>
       <h3><strong>To:</strong> $email['To']</h3>
-    </div>
+      $if email['Tags']:
+        <h3><strong>Tags:</strong>
+          $for tag in email['Tags']:
+            <em>$:(tag)</em>
+        </h3>
+  </div>
     $:(email['Content'])
     <br/>
     <form action="/compose" method="POST">
