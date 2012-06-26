@@ -1,7 +1,19 @@
-$def with (uid, email=None)
+$def with (uid, email=None, email_list=None)
 
 <div class="container">
-  $if email:
+  $if email_list:
+    $for email in email_list:
+      <h1><a class="back" href="/emails">&#8249;</a> $email['Subject'] <span class="date">$email['Date']</span></h1>    
+      <div class="well">
+        <h3><strong>From:</strong> $email['From']</h3>
+        <h3><strong>To:</strong> $email['To']</h3>
+      </div>
+      $:(email['Content'])
+      <br/>
+      <form action="/compose" method="POST">
+        <a href="/compose?reply=$email['Uid']" class="btn btn-danger">Reply</a>
+      </form>
+  $elif email:
     <h1><a class="back" href="/emails">&#8249;</a> $email['Subject'] <span class="date">$email['Date']</span></h1>    
     <div class="well">
       <h3><strong>From:</strong> $email['From']</h3>

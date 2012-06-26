@@ -40,6 +40,23 @@ class Email:
             return render().ui(emails=mail.newest(limit=10, offset=None))        
         raise web.seeother('/')
 
+class TagEmail:
+    def GET(self, uid=None):
+        if getattr(session(), 'passwd', None):
+            mail = Mail(session().email, session().passwd)
+
+            # If multiple email ids were specified, load emails into array
+            i = web.input(uid_list=uid)
+            uid_list = i.uid_list.split(",")
+            if uid_list != "":
+                email_list = []
+                for single_uid in uid_list:
+                    email_list.append(mail.read(single_uid))
+                return render().email(uid_list[0], email_list=email_list)
+            inbox = render().ui(emails=mail.newest(limit=10, offset=None))
+            return inbox
+        raise web.seeother('/')
+
 class Reply:
     def GET(self):
         pass

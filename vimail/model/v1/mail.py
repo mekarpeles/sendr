@@ -45,6 +45,7 @@ class Mail(object):
             raw_email = data[0][1] # email body, raw text of email            
             email = objectify_email(raw_email)
             email['Content'] = self.email_body(email)
+            email['Uid'] = uid
             return email
 
     def newest(self, limit=25, offset=0):
