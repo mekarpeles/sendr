@@ -5,6 +5,14 @@ $var css: compose.css
 <div class="container">
   <form action="/compose" method="POST" class="well form-horizontal" id="msgForm">
     <div id="options" style="margin-left: -90px;">
+
+      <div class="control-group">
+	<label class="control-label">To</label>
+	<div class="controls options-field">
+	  <input type="text" name="to"/>
+	</div>
+      </div>
+
       <div class="control-group">
 	<label class="control-label">Subject</label>
 	<div class="controls options-field">
@@ -13,9 +21,9 @@ $var css: compose.css
       </div>
 
       <div class="control-group">
-	<label class="control-label">To</label>
+	<label class="control-label">Tags</label>
 	<div class="controls options-field">
-	  <input type="text" name="to"/>
+	  <input type="text" name="tags"/>
 	</div>
       </div>
 
