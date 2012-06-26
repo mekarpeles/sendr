@@ -22,6 +22,8 @@ urls = ('/compose/?', 'view.index.Compose',
         '/logout/?', 'view.index.Logout',
         '/contacts/(.+)/?', 'view.index.Contacts',
         '/contacts/?', 'view.index.Contacts',
+        '/tagemail/?', 'view.index.TagEmail',
+        '/tagemail/(.+)', 'view.index.TagEmail',
         '/', 'view.index.Index')
 
 app = web.application(urls, globals(), autoreload=False)
