@@ -1,0 +1,25 @@
+#options {
+    margin-left: -100px;
+}
+
+.options-field{
+    width: 100%;
+}
+
+#message {
+    border: 1px solid #ddd;
+    height: 200px;
+    overflow: scroll;
+}
+
+.control-group {
+    margin-bottom: 5px;
+}
+
+.control-label {
+    font-weight: bold;
+}
+
+.well {
+    margin: 0 auto;
+}

@@ -4,77 +4,34 @@ $def with(content)
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>The HTML5 Herald</title>
+    <title>Sendr</title>
     <meta name="description" content="E-Mail Re-invented">
     <meta name="author" content="Mighty Mail">
-    <link rel="stylesheet" href="/static/css/styles.css?v=1.0">
+    <link href="http://fonts.googleapis.com/css?family=Oleo+Script|Pontano+Sans" rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="/static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/css/base.css">
+    $if content.get("css",''):
+        $for src in content.css.split(" "):
+          <link type="text/css" rel="stylesheet" media="screen" href="$src" />
+    $if content.get("js",''):
+        $for src in content.js.split(" "):
+            <script type="text/javascript" src="$src"></script>
     <!--[if lt IE 9]>
     <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
   </head>
   <body>
-    <!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <title>The HTML5 Herald</title>
-  <meta name="description" content="The HTML5 Herald">
-  <meta name="author" content="SitePoint">
-  <link rel="stylesheet" href="css/styles.css?v=1.0">
-  <!--[if lt IE 9]>
-  <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-  <![endif]-->
-</head>
-<body>
-  <script src="js/scripts.js"></script>
-</body>
-</html><!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <title>The HTML5 Herald</title>
-  <meta name="description" content="The HTML5 Herald">
-  <meta name="author" content="SitePoint">
-  <link rel="stylesheet" href="css/styles.css?v=1.0">
-  <!--[if lt IE 9]>
-  <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-  <![endif]-->
-</head>
-<body>
-  <script src="js/scripts.js"></script>
-</body>
-</html><!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <title>The HTML5 Herald</title>
-  <meta name="description" content="The HTML5 Herald">
-  <meta name="author" content="SitePoint">
-  <link rel="stylesheet" href="css/styles.css?v=1.0">
-  <!--[if lt IE 9]>
-  <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-  <![endif]-->
-</head>
-<body>
-  <script src="js/scripts.js"></script>
-</body>
-</html><!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <title>The HTML5 Herald</title>
-  <meta name="description" content="The HTML5 Herald">
-  <meta name="author" content="SitePoint">
-  <link rel="stylesheet" href="css/styles.css?v=1.0">
-  <!--[if lt IE 9]>
-  <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-  <![endif]-->
-</head>
-<body>
-  <script src="js/scripts.js"></script>
-</body>
-</html>
-  <body>
+    <header>
+      <h1 class="logo"><a class="nostyle" href="/">Sendr</a></h1>
+      <div id="feed">
+	<a href="#contacts-feed"><div id="contacts-feed" class="feed-sprite"></div></a>
+	<a href="#groups-feed"><div id="groups-feed" class="feed-sprite"></div></a>
+	<a href="#notices-feed"><div id="notices-feed" class="feed-sprite"></div></a>
+      </div>
+      <input id="search" type="text" placeholder="search for messages" />
+      <a id="logout" href="/logout">logout</a>
+    </header>
     $:content
   </body>
 </html>

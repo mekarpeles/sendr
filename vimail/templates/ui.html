@@ -1,11 +1,22 @@
-$def with (emails=[])
+$def with (emails=[], resp="")
 
 <div>
-  <ol>
-    $for email in emails:
-      $if email['Subject']:
-        <li>$email['Subject']</li>
-      $else:
-	<li>(no subject)</li>
-  </ol>
+  $if resp:
+    <div class="alert">$resp</div>
+    <br/>
+  <div class="alert">
+    <div>@michaelkarpeles was mentioned 10 times</div>
+    <div>3 birthdays today</div>
+    <div>5 appointments on your calendar</div>
+    <div>3 critical emails</div>
+  </div>
+  <form action="/" method="POST">
+    <ol class="emails">
+      $for email in emails:
+        $if email['email']['Subject']:
+          <li><input type="checkbox"/> <a href="/emails/$email['uid']">$email['email']['Subject'][:75]...</a></li>
+        $else:
+          <li><a href="/emails/$email['uid']">(no subject)</a></li>
+    </ol>
+  </form>
 </div>

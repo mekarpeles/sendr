@@ -1,4 +1,5 @@
 localconf.py
 *.cfg
-*.py~
+*.*~
 *.pyc
+sessions

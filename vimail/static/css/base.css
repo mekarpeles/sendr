@@ -1,0 +1,213 @@
+html {
+    margin: 0px;
+    padding: 0px;
+}
+
+body {
+    margin: 0px;
+    padding: 0px;    
+    font-family: 'Open Sans', sans-serif;
+    font-size: .9em;
+}
+
+h1 {
+    color: #333;
+    font-weight: 300;  
+}
+
+h3 {
+    color: #333;
+    font-weight: 300;  
+}
+
+h1.logo {
+    position: relative;
+    color: #fff;
+    text-shadow: 0px 1px 1px #00a;
+    font-size: 1.7em;
+    margin: 0px;
+    margin-left: 50px;
+    padding: 0px 0px 2px 15px;
+    font-family: 'Oleo Script', cursive;
+    display: inline;
+    top: 1px;
+    float: left;
+}
+
+#feed {
+    float: left;
+    display: inline;
+    margin-left: 10px;
+    margin-top: 8px;
+    width: 100px;
+    height: 20px;
+}
+
+.feed-sprite {
+    background-image: url('/static/imgs/fb-sprite.png');
+    background-repeat: no-repeat: !important;
+    width: 20px;
+    height: 20px;
+    margin-left: 5px;
+    float: left;
+}
+
+#contacts-feed {
+    background-position: 0px 0px !important;    
+}
+
+#groups-feed {
+    background-position: 20px 0px !important;
+}
+
+#notices-feed {
+    background-position: 40px 0px !important;
+}
+
+#search {
+    background-color: #fff;
+    padding: 8px 10px;
+    position: relative;
+    left: -10px;
+    top: 6px;
+    width: 300px;
+    height: 6px;
+    border: 1px solid #258;
+    border-top: 1px solid #147;
+    display: inline;
+}
+
+.clearfix {
+    clear: both;
+}
+
+header {    
+    background-color: #369;
+    border-bottom: 1px solid #258;
+    margin-bottom: 20px;
+}
+
+input[type="text"] {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-top: 1px solid #bbb;
+    border: 1px solid #ddd;
+    padding: 8px 10px;
+}
+
+input[type="email"] {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-top: 1px solid #bbb;
+    padding: 8px 10px;
+}
+
+input[type="password"] {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-top: 1px solid #bbb;
+    padding: 8px 10px;
+}
+
+p {
+}
+
+ol {
+
+}
+
+ol.emails {
+    list-style-type: none;
+}
+
+ol.emails li {
+    width:700px;
+    background-color: #f6f6f6;
+    border-top: 1px solid #eee;
+    padding: 5px 5px;
+}
+
+ol.emails li:odd {
+    background-color: #f3f3f3;
+}
+
+ol.emails li:last-child {
+    border-bottom: 1px solid #eee;
+}
+
+.email-expanded {
+    padding: 10px;
+    background-color: #f6f6f6;
+    height: 50px;
+    width: 490px;
+}
+
+.roundcorners {
+    border-radius: 3px; 
+    -moz-border-radius: 3px; 
+    -webkit-border-radius: 3px;
+}
+
+.formarea {
+    color: #333;
+    text-align: center;
+    padding: 10px;
+    width: 480px;
+    margin: 0 auto;
+    background-color: #eee;
+    border: 1px solid #ddd;
+}
+
+.shadow {
+    box-shadow: 0 0 0 1px rgba(0,0,0,0.15), 0 0 10px -3px rgba(0,0,0,0.5)
+}
+
+.btn {
+    color: #fff;
+    font-weight: 600;
+    padding: 5px 10px;
+    border-width: 1px;
+    border-top-color: #29447E;
+    border-right-color: #29447E;
+    border-bottom-color: #1A356E;
+    border-left-color: #29447E;
+    background-color: #5B74A8;
+    border-radius: 0px; 
+    -moz-border-radius: 0px; 
+    -webkit-border-radius: 0px;
+}
+
+a.back {
+    text-decoration: none;
+}
+
+.container {
+    margin: 0px 20px;
+}
+
+.date {
+    border: 1px solid #fd8;
+    padding: 3px;
+    background-color: #fea;
+    position: relative;
+    top: -5px;
+    left: 10px;
+    font-size: 12px;
+}
+
+h1.logo a.nostyle {
+    text-decoration: none;
+}
+
+h1.logo a.nostyle:visited {
+    text-decoration: none;
+    color: #fff;
+}
+
+#logout{ 
+    color: #fff;
+    float: right;
+    font-size: 12px;
+    margin-right: 10px;
+    margin-top: 10px;
+}

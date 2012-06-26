@@ -42,5 +42,10 @@ if os.path.isfile('configs/db.cfg'):
 else:
     db = None
 
+if os.path.isfile('configs/oauth2.cfg'):
+    config.read('configs/oauth2.cfg')
+    FB_TOKEN_KEY = config.get("fb", "TOKEN_KEY")
+    FB_TOKEN_SECRET = config.get("fb", "TOKEN_SECRET")
+
 
 

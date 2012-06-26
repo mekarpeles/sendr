@@ -1,0 +1,75 @@
+$def with(uid=None)
+
+$var css: compose.css
+
+<div class="container">
+  <form action="/compose" method="POST" class="well form-horizontal" id="msgForm">
+    <div id="options" style="margin-left: -90px;">
+      <div class="control-group">
+	<label class="control-label">Subject</label>
+	<div class="controls options-field">
+	  <input type="text" name="subject"/>
+	</div>
+      </div>
+
+      <div class="control-group">
+	<label class="control-label">To</label>
+	<div class="controls options-field">
+	  <input type="text" name="to"/>
+	</div>
+      </div>
+
+      <div class="control-group">
+	<label class="control-label">Cc</label>
+	<div class="controls options-field">
+	  <input type="text" name="cc"/>
+	</div>
+      </div>
+
+      <div class="control-group">
+	<label class="control-label">Bcc</label>
+	<div class="controls options-field">
+	  <input type="text" name="bcc"/>
+	</div>
+      </div>
+
+      <div class="controls"><input type="hidden" name="uid" value="$uid"/></div>
+    </div>      
+    <div id="toolbar">   
+    </div>
+    <div>
+      <style>
+       #message{
+         border: 1px solid #ddd;
+         background-color:#fff;
+         height: 200px;
+         overflow-y:scroll;
+       }
+      </style>
+      <p name="message" contenteditable="true" id="message">
+      
+      </p>
+    </div>
+    <br/>
+    <input type="submit" value="Send" id="sendBtn" class="btn btn-primary"/>
+  </form>
+</div>
+<script type="text/javascript">
+var addy = function(){
+    this.onmouseover=function(){}
+    var val = document.getElementById("message").innerHTML;
+    var inp = document.createElement("input");
+    inp.setAttribute("type","text");
+    inp.style.display = "none";
+    inp.setAttribute("id","killme");
+    inp.setAttribute("name","message");
+    document.getElementById("msgForm").appendChild(inp);
+    document.getElementById("killme").value=val;
+    document.getElementById("killme").setAttribute("value",val);
+    this.onmouseout=function(){
+        this.onmouseover=addy;
+        document.getElementById("killme").parentNode.removeChild(document.getElementById("killme"));
+    }
+}
+document.getElementById("sendBtn").onmouseover=addy;
+</script>
