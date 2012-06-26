@@ -1,0 +1,54 @@
+$def with(uid=None)
+
+$var css: compose.css
+
+<div class="container">
+  <form action="/compose" method="POST" class="well form-horizontal">
+    <div id="options" style="margin-left: -90px;">
+      <div class="control-group">
+	<label class="control-label">Subject</label>
+	<div class="controls options-field">
+	  <input type="text" name="subject"/>
+	</div>
+      </div>
+
+      <div class="control-group">
+	<label class="control-label">To</label>
+	<div class="controls options-field">
+	  <input type="text" name="to"/>
+	</div>
+      </div>
+
+      <div class="control-group">
+	<label class="control-label">Cc</label>
+	<div class="controls options-field">
+	  <input type="text" name="cc"/>
+	</div>
+      </div>
+
+      <div class="control-group">
+	<label class="control-label">Bcc</label>
+	<div class="controls options-field">
+	  <input type="text" name="bcc"/>
+	</div>
+      </div>
+
+      <div class="controls"><input type="hidden" name="uid" value="$uid"/></div>
+    </div>      
+    <div id="toolbar">   
+    </div>
+    <div>
+      <p name="message" contenteditable="true" id="message">
+      <style scoped>
+	#message {
+ 	  border: 1px solid #ddd;
+	  background-color: #fff;
+  	  height: 200px;
+	  overflow-y: scroll;
+	}
+      </style>
+    </div>
+    <br/>
+    <input type="submit" value="Send" class="btn btn-primary"/>
+  </form>
+</div>

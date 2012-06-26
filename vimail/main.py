@@ -15,7 +15,14 @@ from reloader import PeriodicReloader
 from configs.config import SERVER
 from configs.config import db
 
-urls = ('/', 'view.index.Index')
+urls = ('/compose/?', 'view.index.Compose',
+        '/emails/(.+)', 'view.index.Email',
+        '/emails/?', 'view.index.Email',
+        '/test/?', 'view.index.Test',
+        '/logout/?', 'view.index.Logout',
+        '/contacts/(.+)/?', 'view.index.Contacts',
+        '/contacts/?', 'view.index.Contacts',
+        '/', 'view.index.Index')
 
 app = web.application(urls, globals(), autoreload=False)
 application = app.wsgifunc()
@@ -36,21 +43,25 @@ def initialize_session(app, storage_method):
 def get_default_session(webpy_sess):
     # TODO: User really should be a class
     default_session = { 'logged': False,
-                        'user_id': 0,
                         'email': None,
+                        'passwd': None,
                         'admin': False,
                         }
     webpy_sess.update(default_session)
 
 app.add_processor(web.loadhook(session_hook))
-storage_method = web.session.DBStore(db, 'sessions')
+
+storage_method = web.session.DiskStore(SERVER['APP_PATH'] + '/sessions')
+#storage_method = web.session.DBStore(db, 'sessions')
 session = initialize_session(app, storage_method)
 
 # ==================
 # Template Renderers
 # ==================
 globs = {'ctx': web.ctx,
-         'session': session}
+         'session': session,
+         'len': len,
+         }
 
 slender = web.template.render(SERVER['APP_PATH'] + '/templates/', globals=globs)
 render  = web.template.render(SERVER['APP_PATH'] + '/templates/', base='layout', globals=globs)

@@ -1,0 +1,113 @@
+html {
+    margin: 0px;
+    padding: 0px;
+}
+
+body {
+    margin: 0px;
+    padding: 0px;    
+    font-family: 'Open Sans', sans-serif;
+    font-size: .9em;
+}
+
+h1 {
+    color: #333;
+    font-weight: 300;  
+}
+
+h1.logo {
+    color: #fff;
+    text-shadow: 0px 1px 1px #00a;
+    font-size: 2.5em;
+    margin: 0px;
+    padding: 10px 0px 10px 15px;
+    font-family: 'Oleo Script', cursive;
+}
+
+header {    
+    background-color: #369;
+    border-bottom: 1px solid #258;
+    margin-bottom: 20px;
+}
+
+input[type="text"] {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-top: 1px solid #bbb;
+    border: 1px solid #ddd;
+    padding: 8px 10px;
+}
+
+input[type="email"] {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-top: 1px solid #bbb;
+    padding: 8px 10px;
+}
+
+input[type="password"] {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-top: 1px solid #bbb;
+    padding: 8px 10px;
+}
+
+p {
+}
+
+ol {
+
+}
+
+ol.maillist li {
+    width: 500px;
+    background-color: #f6f6f6;
+    border-top: 1px solid #eee;
+    padding: 5px 5px;
+}
+
+ol.maillist li:last-child {
+    border-bottom: 1px solid #eee;
+}
+
+.email-expanded {
+    padding: 10px;
+    background-color: #f6f6f6;
+    height: 50px;
+    width: 490px;
+}
+
+.roundcorners {
+    border-radius: 3px; 
+    -moz-border-radius: 3px; 
+    -webkit-border-radius: 3px;
+}
+
+.formarea {
+    color: #333;
+    text-align: center;
+    padding: 10px;
+    width: 480px;
+    margin: 0 auto;
+    background-color: #eee;
+    border: 1px solid #ddd;
+}
+
+.shadow {
+    box-shadow: 0 0 0 1px rgba(0,0,0,0.15), 0 0 10px -3px rgba(0,0,0,0.5)
+}
+
+.btn {
+    color: #fff;
+    font-weight: 600;
+    padding: 5px 10px;
+    border-width: 1px;
+    border-top-color: #29447E;
+    border-right-color: #29447E;
+    border-bottom-color: #1A356E;
+    border-left-color: #29447E;
+    background-color: #5B74A8;
+    border-radius: 0px; 
+    -moz-border-radius: 0px; 
+    -webkit-border-radius: 0px;
+}
