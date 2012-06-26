@@ -69,9 +69,9 @@ class Mail(object):
 
         # Remove trailing square bracket, if present
         tag_string = parsed_body[-1]
-        if tag_string == "]":
-            tag_string = tag_list[0:-1]
-        tag_list.split(" #")
+        # Removing trailing square bracket
+        tag_string = tag_string.split("]", 1)[0]
+        tag_list = tag_string.split(" #")
 
         return parsed_body[0], tag_list
 
