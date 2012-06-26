@@ -44,9 +44,36 @@ class Mail(object):
         if not data == [None]:
             raw_email = data[0][1] # email body, raw text of email            
             email = objectify_email(raw_email)
-            email['Content'] = self.email_body(email)
             email['Uid'] = uid
+            email['Content'], email['Tags'] = \
+                self.parse_email_body(self.email_body(email))
             return email
+
+    def parse_email_body(self, raw_body):
+        """Separate body and tag, and return two values:
+        1. the updated body (with tags removed), and
+        2. a list of updated body with parsed tags.
+
+        Tags are represented at the end of the email (after all content and
+        signatures), and are delimiated using square brackets.
+        e.g.: [#tag1 #tag2 #tag3] => [ "tag1", "tag2", "tag3" ]
+        e.g.: [#multiple word tag #tag2] => [ "multiple word tag", "tag2" ]
+        """
+
+        # Reverse split, seeking tag header
+        parsed_body = raw_body.rsplit("[#", 1)
+
+        if len(parsed_body) == 1:
+            # no Tags were found
+            return raw_body, None
+
+        # Remove trailing square bracket, if present
+        tag_string = parsed_body[-1]
+        if tag_string == "]":
+            tag_string = tag_list[0:-1]
+        tag_list.split(" #")
+
+        return parsed_body[0], tag_list
 
     def newest(self, limit=25, offset=0):
         """fetch email body (RFC822) for a set of uids based on
