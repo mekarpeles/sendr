@@ -37,7 +37,7 @@ class Email:
             mail = Mail(session().email, session().passwd)
             if uid:
                 return render().email(uid, email=mail.read(uid))
-            return render().ui(emails=mail.newest(limit=10, offset=None))
+            return render().ui(emails=mail.newest(limit=10, offset=None))        
         raise web.seeother('/')
 
 class TagEmail:
@@ -66,14 +66,14 @@ class Compose:
         return render().compose()
 
     def POST(self):
-        i = web.input(to="", cc="", bcc="",
-                      subject="", message="")
+        i = web.input(to="", cc="", bcc="", subject="", tags="", message="")
         resp = "success"
-        return i.to, session().email, i.bcc, i.cc, i.subject, i.message
-        try:
+        #return i.to, session().email, i.bcc, i.cc, i.subject, i.message
+        try:            
+            message = "%s [%s]" % (i.message, i.tags)
             mailman = Mailer()
             mailman.sendmail(sender=session().email, subject=i.subject,
-                             recipients=[i.to], msg=i.message)
+                             recipients=[i.to], msg=message)
         except Exception as e:
             return e
             resp = "failure"
@@ -82,9 +82,11 @@ class Compose:
 
 class Logout:
     def GET(self):
-        del session().email
-        del session().passwd
-        session().start()
+        try:
+            del session().email
+            del session().passwd
+        except:
+            pass
         session().kill()
         raise web.seeother('/')
 
