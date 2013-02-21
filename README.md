@@ -1,0 +1,3 @@
+# Sendr
+
+Semantic Email Client
