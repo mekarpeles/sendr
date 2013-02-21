@@ -9,15 +9,22 @@
 """
 
 import imaplib
-from mightymail_stdlib.utils.util import objectify_email
+from stdlib.utils.util import objectify_email
+from contextIO.ContextIO import ContextIO
+from configs.config import CONTEXTIO
+
+RFC = {"imap.gmail.com": "822",
+       "imap.mail.yahoo.com": "822"
+       }
 
 class Mail(object):
 
-    def __init__(self, email, passwd):
-        self.mail = imaplib.IMAP4_SSL('imap.gmail.com')        
+    def __init__(self, email, passwd, imap='imap.gmail.com'):
+        self.imap = imap
+        self.mail = imaplib.IMAP4_SSL(self.imap)
         self.email = email
         self.login(email, passwd)
-        self.switch()
+        self.count = self.switch()[1]
 
     def __getstate__(self):
         return self.__dict__.copy()
@@ -30,7 +37,9 @@ class Mail(object):
         return self.mail.list()
 
     def switch(self, box="inbox"):
-        self.mail.select("inbox") # connect to inbox.        
+        """connect to inbox"""
+        status, count = self.mail.select("inbox")
+        return status, count
 
     @property
     def uids(self):
@@ -40,7 +49,7 @@ class Mail(object):
         return uids
 
     def read(self, uid):
-        result, data = self.mail.fetch(uid, "(RFC822)")
+        result, data = self.mail.fetch(uid, "(RFC%s)" % RFC[self.imap])
         if not data == [None]:
             raw_email = data[0][1] # email body, raw text of email            
             email = objectify_email(raw_email)
@@ -60,8 +69,11 @@ class Mail(object):
         e.g.: [#multiple word tag #tag2] => [ "multiple word tag", "tag2" ]
         """
 
-        # Reverse split, seeking tag header
-        parsed_body = raw_body.rsplit("[#", 1)
+        try:
+            # Reverse split, seeking tag header
+            parsed_body = raw_body.rsplit("[#", 1)
+        except:
+            return []
 
         if len(parsed_body) == 1:
             # no Tags were found
@@ -76,34 +88,25 @@ class Mail(object):
         return parsed_body[0], tag_list
 
     def newest(self, limit=25, offset=0):
-        """fetch email body (RFC822) for a set of uids based on
+        """fetch email body (RFC???) for a set of uids based on
         the current box, the limit, and the offset"""
         results = []
-        uids = self.paginate(self.uids[::-1], limit, offset)
-        for ii, uid in enumerate(uids):
-            result, data = self.mail.fetch(uid, "(RFC822)")
+        for ii, uid in enumerate(self.uids[::-1]):
+            result, data = self.mail.fetch(uid, "(RFC%s)" % RFC[self.imap])
             if not data == [None]:
-                raw_email = data[0][1] # email body, raw text of email
-                email = objectify_email(raw_email)
-                email['Content'] = self.email_body(email)
-                results.append({"uid": uid,
-                                "index": ii,
-                                "email": email,
-                               })
-            if len(results) == limit:
-                return results                
+                if offset:
+                    offset-=1
+                else:
+                    raw_email = data[0][1] # email body, raw text of email
+                    email = objectify_email(raw_email)
+                    email['Content'] = self.email_body(email)
+                    results.append({"uid": uid,
+                                    "index": ii,
+                                    "email": email,
+                                    })
+                    if limit and len(results) == limit:
+                        return results
         return results
-
-    @classmethod
-    def paginate(cls, uids, limit, offset):
-        if offset:
-            if offset > len(uids):
-                return []
-            return uids[offset:]
-        return uids
-        #if not limit or limit > len(uids):
-        #    return uids
-        #return uids[:limit]
 
     @classmethod
     def email_body(cls, email_message_instance):
@@ -119,3 +122,4 @@ class Mail(object):
                     return part.get_payload()
         elif maintype == 'text':
             return email_message_instance.get_payload()
+
