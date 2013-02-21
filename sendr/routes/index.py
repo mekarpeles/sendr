@@ -1,9 +1,10 @@
 #-*- coding: utf-8 -*-
+
 """
     index.py [view]
     ~~~~~~~~
-
     Renders the view for the homepage.
+
     :copyright: (c) 2012 by Mek
     :license: BSD, see LICENSE for more details.
 """
@@ -11,7 +12,8 @@
 import web
 import imaplib
 from model.v1.mail import Mail
-from mightymail_stdlib.api.v1.mail import Mailer
+from model.v1.mail import contextio
+from stdlib.api.v1.mail import Mailer
 
 render = lambda: web.ctx.session['render']
 slender = lambda: web.ctx.session['slender']
@@ -21,29 +23,26 @@ class Index:
     def GET(self):
         i = web.input(response="")
         if getattr(session(), 'passwd', None):            
-            raise web.seeother('/emails')
-        return slender().login()
-
-    def POST(self):
-        i = web.input(email=None, passwd=None)
-        session().email = i.email
-        session().passwd = i.passwd
-        mail = Mail(session().email, session().passwd)
-        return render().ui(emails=mail.newest(limit=10, offset=None))
+            raise web.seeother('/emails?page=0&limit=10')
+        raise web.seeother('/login')
 
 class Email:
     def GET(self, uid=None):
+        i = web.input(page=0, limit=10) 
         if getattr(session(), 'passwd', None):
-            mail = Mail(session().email, session().passwd)
+            mail = Mail(session().email, session().passwd, session().imap)
             if uid:
                 return render().email(uid, email=mail.read(uid))
-            return render().ui(emails=mail.newest(limit=10, offset=None))        
+            page, limit = int(i.page), int(i.limit)
+            offset = page * limit
+            emails = mail.newest(limit=limit, offset=offset)
+            return render().ui(emails=emails, page=page, limit=limit)
         raise web.seeother('/')
 
 class TagEmail:
     def GET(self, uid=None):
         if getattr(session(), 'passwd', None):
-            mail = Mail(session().email, session().passwd)
+            mail = Mail(session().email, session().passwd, session().imap)
 
             # If multiple email ids were specified, load emails into array
             i = web.input(uid_list=uid)
@@ -68,7 +67,6 @@ class Compose:
     def POST(self):
         i = web.input(to="", cc="", bcc="", subject="", tags="", message="")
         resp = "success"
-        #return i.to, session().email, i.bcc, i.cc, i.subject, i.message
         try:            
             message = "%s [%s]" % (i.message, i.tags)
             mailman = Mailer()
@@ -77,19 +75,9 @@ class Compose:
         except Exception as e:
             return e
             resp = "failure"
-            
         raise web.seeother(web.ctx.homedomain + '?response=' + resp)
-
-class Logout:
-    def GET(self):
-        try:
-            del session().email
-            del session().passwd
-        except:
-            pass
-        session().kill()
-        raise web.seeother('/')
 
 class Test:
     def GET(self):
-        return render().test()
+        return contextio()
+
