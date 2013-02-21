@@ -1,3 +1,4 @@
+localconf.py
 *.pyc
 *~
 sessions
