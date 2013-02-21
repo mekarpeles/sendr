@@ -1,5 +1,4 @@
-localconf.py
-*.cfg
-*.*~
 *.pyc
+*~
 sessions
+db
