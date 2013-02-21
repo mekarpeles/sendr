@@ -20,7 +20,7 @@ setup(
     author_email='michael.karpeles@gmail.com',
     packages=[
         'sendr',
-        'tests'
+        'test'
         ],
     platforms='any',
     license='LICENSE',
