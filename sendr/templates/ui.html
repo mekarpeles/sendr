@@ -1,4 +1,4 @@
-$def with (emails=[], resp="")
+$def with (emails=[], resp="", page=0, limit=10)
 
 <div>
   $if resp:
@@ -12,11 +12,17 @@ $def with (emails=[], resp="")
   </div>
   <form action="/" method="POST">
     <ol class="emails">
+      <li>
+	$if page:
+	  <a href="/emails?page=$(page)&limit=$(limit)">&laquo Previous</a>
+	
+	<a href="/emails?page=$(page+1)&limit=$(limit)">Next &raquo</a>	  
+      </li>
       $for email in emails:
         $if email['email']['Subject']:
           <li><input type="checkbox"/> <a href="/emails/$email['uid']">$email['email']['Subject'][:75]...</a></li>
         $else:
-          <li><a href="/emails/$email['uid']">(no subject)</a></li>
+          <li><input type="checkbox"/> <a href="/emails/$email['uid']">(no subject)</a></li>
     </ol>
   </form>
 </div>

@@ -179,6 +179,10 @@ ol.emails li:last-child {
 
 a.back {
     text-decoration: none;
+    border: 1px solid #eee;
+    border-bottom: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+    color: #333;
 }
 
 .container {

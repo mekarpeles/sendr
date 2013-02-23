@@ -18,9 +18,17 @@ $def with()
     <header>
       <h1 class="logo">Sendr</h1>
     </header>
+    $#<div style="background-color: #444; height: 25px; margin-top: -20px;">
+    </div>
     <div class="formarea">
       <h1>Welcome!</h1>
-      <form method="POST" action="/">
+      <form method="POST" action="/login">
+	<div>client 
+	  <select name="imap">
+	    <option value="imap.gmail.com">gmail</option>
+	    <option value="imap.mail.yahoo.com">yahoo</option>
+	  </select>
+	</div>
 	<div>email <input type="email" name="email"/></div>
 	<div>password <input type="password" name="passwd"/></div>
 	<input class="btn roundcorners shadow" type="submit" />
