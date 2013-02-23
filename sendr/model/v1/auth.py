@@ -10,5 +10,5 @@
 """
 
 from configs.config import FB_TOKEN_KEY, FB_TOKEN_SECRET
-from mightymail_stdlib.utils.auth import oauth2_server
+from stdlib.utils.auth import oauth2_server
 
