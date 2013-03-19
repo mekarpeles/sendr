@@ -10,7 +10,6 @@
 
 import imaplib
 from stdlib.utils.util import objectify_email
-from contextIO.ContextIO import ContextIO
 from configs.config import CONTEXTIO
 
 RFC = {"imap.gmail.com": "822",
