@@ -11,7 +11,7 @@
 """
 
 import web
-from model.v1.mail import Mail, contextio
+from model.v1.mail import Mail
 
 render = lambda: web.ctx.session['render']
 slender = lambda: web.ctx.session['slender']
