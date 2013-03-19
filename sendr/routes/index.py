@@ -12,7 +12,6 @@
 import web
 import imaplib
 from model.v1.mail import Mail
-from model.v1.mail import contextio
 from stdlib.api.v1.mail import Mailer
 
 render = lambda: web.ctx.session['render']
@@ -77,7 +76,4 @@ class Compose:
             resp = "failure"
         raise web.seeother(web.ctx.homedomain + '?response=' + resp)
 
-class Test:
-    def GET(self):
-        return contextio()
 

@@ -17,7 +17,6 @@ from configs.config import db
 urls = ('/compose/?', 'routes.index.Compose',
         '/emails/(.+)', 'routes.index.Email',
         '/emails/?', 'routes.index.Email',
-        '/test/?', 'routes.index.Test',
         '/login/?', 'routes.auth.Login',
         '/logout/?', 'routes.auth.Logout',
         '/contacts/(.+)/?', 'routes.index.Contacts',
