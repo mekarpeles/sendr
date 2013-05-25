@@ -1,4 +1,4 @@
-#!/usr/bin/bash
+#!/bin/bash
 
 sudo pip install .
 git clone https://github.com/mekarpeles/sendr_stdlib
