@@ -15,6 +15,13 @@ import io
 import os
 import ConfigParser
 
+import types
+
+def getdef(self, section, option, default_value):
+    try:
+        return self.get(section, option)
+    except:
+        return default_value
 
 config = ConfigParser.ConfigParser()
 
