@@ -4,58 +4,67 @@
     ~~~~~~~~~
 
     This module is the middle man for handling/consolidating
-    configurations for the Dungeons project.
+    configurations for the Sendr mail client.
 
     :copyright: (c) 2012 by Mek
     :license: BSD, see LICENSE for more details.
 """
 
-import web
 import io
 import os
 import ConfigParser
-
 import types
+from waltz import web
 
-def getdef(self, section, option, default_value):
+path = os.path.dirname(__file__)
+
+def makeconf(cfg):
+    """Makes a config parser instance provided an unversioned (user
+    specified) <file>.cfg. If no such .cfg exists, makeconf will
+    attempt to load a fallback .cfg with defaults: <file>_default.cfg
+    files containing default values
+    """
+
+    def getdef(self, section, option, default_value):
+        """injectable method for config parsers which allows 'getattr'
+        like behavior (i.e. default values in case config keys don't exist)
+        """
+        try:
+            return self.get(section, option)
+        except:
+            return default_value
+
+    config = ConfigParser.ConfigParser()
+    if not os.path.isfile(cfg):
+        cfg_ = cfg
+        cfg = '_default'.join(os.path.splitext(cfg))
+        if not os.path.isfile(cfg):
+            raise IOError("[Errno 2] No such file or directory '%s'" \
+                              "and no default/fallback: '%s'" % (cfg_, cfg))
+    config.read(cfg)
+    config.getdef = types.MethodType(getdef, config)
+    return config
+
+def server():
+    config_srv = makeconf("%s/server.cfg" % path)
+    server = {'DEBUG_MODE': bool(config_srv.getdef("server", "debug", True)),
+              'APP_PATH': os.getcwd()
+              }
+    return server
+
+def database():
+    config_db = makeconf('%s/db.cfg' % path)
+    user = config_db.getdef("dbms", "user", "ubuntu")
+    host = config_db.getdef("dbms", "host", "localhost")
+    port = config_db.getdef("dbms", "port", 3306)
+    passwd = config_db.getdef("dbms", "passwd", "")
+    dbn = config_db.getdef("dbms", "dbn", "mysql")
+    db = config_db.getdef("dbms", "db", "sendr")
     try:
-        return self.get(section, option)
+        return web.database(host=host, dbn="mysql", db=db,
+                            user=user, pw=passwd)
     except:
-        return default_value
+        return None
 
-config = ConfigParser.ConfigParser()
-
-# *.cfg are unversioned files which, if don't exist, have default
-# *_default.cfg fils containing default values
-
-# SERVER variables
-if os.path.isfile('configs/server.cfg'):
-    config.read('configs/server.cfg')
-else:
-    config.read('configs/server_default.cfg')
-SERVER = {'DEBUG_MODE': bool(config.get("server", "debug")),
-          'APP_PATH': os.getcwd() 
-          }
-
-# DB variables
-if os.path.isfile('configs/db.cfg'):
-    config.read('configs/db.cfg')
-    USER = config.get("mysql", "user")
-    HOST = config.get("mysql", "host")    
-    PASSWD = config.get("mysql", "passwd")
-    DB = config.get("mysql", "db")
-    db = web.database(host=HOST, dbn="mysql", db=DB,
-                      user=USER, pw=PASSWD)
-else:
-    db = None
-
-if os.path.isfile('configs/oauth2.cfg'):
-    config.read('configs/oauth2.cfg')
-    FB_TOKEN_KEY = config.get("fb", "TOKEN_KEY")
-    FB_TOKEN_SECRET = config.get("fb", "TOKEN_SECRET")
-
-if os.path.isfile('configs/apis.cfg'):
-    config.read('configs/apis.cfg')
-    CONTEXTIO = { "key": config.get("contextio", "key"),
-                  "secret": config.get("contextio", "secret")
-                  }
+SERVER = server()
+db = database()
