@@ -20,9 +20,9 @@ setup(
     author_email='michael.karpeles@gmail.com',
     packages=[
         'sendr',
-        'sendr/test'
-        'sendr/model'
-        'sendr/model/v1'
+        'sendr/test',
+        'sendr/model',
+        'sendr/model/v1',
         'sendr/subapps'
         ],
     platforms='any',
