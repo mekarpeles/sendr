@@ -10,9 +10,8 @@
     :license: BSD, see LICENSE for more details.
 """
 
-from waltz import web, setup
+import waltz
 from configs.config import SERVER
-from configs.config import db
 
 urls = ('/compose/?', 'routes.index.Compose',
         '/emails/(.+)', 'routes.index.Email',
@@ -25,46 +24,22 @@ urls = ('/compose/?', 'routes.index.Compose',
         '/tagemail/(.+)', 'routes.index.TagEmail',
         '/', 'routes.index.Index')
 
-app = setup.dancefloor(urls, globals())
-application = app.wsgifunc()
-
-# ======================
-# Session Initialization
-# ======================
-def session_hook():
-    web.ctx.session = {"session": session,
-                       "render": render,
-                       "slender": slender,
-                       }
-
-def initialize_session(app, storage_method):
-    session = web.session.Session(app, storage_method, initializer=get_default_session)
-    return session
-
-
-default_session = { 'logged': False,
+# Default values for new client sessions
+session_defaults = {'logged': False,
                     'email': None,
                     'passwd': None,
                     'admin': False,
                     }
-app.add_processor(web.loadhook(session_hook))
 
-storage_method = web.session.DiskStore(SERVER['APP_PATH'] + '/sessions')
-#storage_method = web.session.DBStore(db, 'sessions')
-session = web.session.Session(app, storage_method, initializer=default_session)
+# Make the following variable and methods available for use within the
+# html templates)
+env = {'ctx': waltz.web.ctx,
+       'session': waltz.session,
+       'len': len,
+       }
 
-# ==================
-# Template Renderers
-# ==================
-globs = {'ctx': web.ctx,
-         'session': session,
-         'len': len,
-         }
-
-slender = web.template.render(SERVER['APP_PATH'] + '/templates/',
-                              globals=globs)
-render  = web.template.render(SERVER['APP_PATH'] + '/templates/',
-                              base='layout', globals=globs)
+app = waltz.setup.dancefloor(urls, globals(), sessions=session_defaults, env=env,
+                             debug=SERVER['DEBUG_MODE'])
 
 if __name__ == "__main__":
     app.run()
