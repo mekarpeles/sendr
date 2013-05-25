@@ -10,12 +10,8 @@
     :license: BSD, see LICENSE for more details.
 """
 
-import web
+from waltz import web, render, slender, session
 from model.v1.mail import Mail
-
-render = lambda: web.ctx.session['render']
-slender = lambda: web.ctx.session['slender']
-session = lambda: web.ctx.session['session']
 
 class Login:
     def GET(self):

@@ -9,14 +9,10 @@
     :license: BSD, see LICENSE for more details.
 """
 
-import web
 import imaplib
+from waltz import web, render, session
 from model.v1.mail import Mail
 from stdlib.api.v1.mail import Mailer
-
-render = lambda: web.ctx.session['render']
-slender = lambda: web.ctx.session['slender']
-session = lambda: web.ctx.session['session']
 
 class Index:
     def GET(self):
