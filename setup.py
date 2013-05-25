@@ -10,6 +10,7 @@
     $ pip install -e .
 """
 
+import os
 from distutils.core import setup
 
 setup(
@@ -32,5 +33,6 @@ setup(
         'lepl >= 5.1.3',
     ],
     description="Sendr semantic email client",
-    long_description=open('README.md').read(),
+    long_description=open(os.path.join(os.path.dirname(__file__),
+                                       'README.md')).read(),
 )
