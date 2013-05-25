@@ -1,7 +1,7 @@
 #!/bin/bash
 
-sudo pip install .
+sudo pip install --upgrade .
 git clone https://github.com/mekarpeles/sendr_stdlib stdlib
-rm sendr/stdlib
-ln -s stdlib sendr/stdlib
-#cd stdlib;pip install .
+cd sendr
+rm stdlib
+ln -s ../stdlib stdlib
