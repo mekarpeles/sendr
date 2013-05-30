@@ -1,0 +1,26 @@
+#!/usr/bin/env python
+#-*- coding: utf-8 -*-
+
+"""
+    sendr
+    ~~~~~
+
+    The semantic email client
+
+    :copyright: (c) 2012 by Mek
+    :license: BSD, see LICENSE for more details.
+"""
+
+import argparse
+import os
+import sys
+from sendr 
+
+def argparser():
+    parser = argparse.ArgumentParser(description="Sendr, semantic email client")
+    return parser
+
+if __name__ == "__main__":
+    parser = argparser()
+    args = parser.parse_args()
+    setup.init_scaffolding(os.getcwd(), appname=args.name)
