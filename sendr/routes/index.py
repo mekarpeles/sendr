@@ -11,8 +11,7 @@
 
 import imaplib
 from waltz import web, render, session
-from model.v1.mail import Mail
-from stdlib.api.v1.mail import Mailer
+from api.v1.mail import Mailbox, Mailman, unescape_html
 
 class Index:
     def GET(self):
@@ -25,7 +24,7 @@ class Email:
     def GET(self, uid=None):
         i = web.input(page=0, limit=10) 
         if getattr(session(), 'passwd', None):
-            mail = Mail(session().email, session().passwd, session().imap)
+            mail = Mailbox(session().email, session().passwd, session().imap)
             if uid:
                 return render().email(uid, email=mail.read(uid))
             page, limit = int(i.page), int(i.limit)
@@ -37,7 +36,7 @@ class Email:
 class TagEmail:
     def GET(self, uid=None):
         if getattr(session(), 'passwd', None):
-            mail = Mail(session().email, session().passwd, session().imap)
+            mail = Mailbox(session().email, session().passwd, session().imap)
 
             # If multiple email ids were specified, load emails into array
             i = web.input(uid_list=uid)
@@ -63,10 +62,15 @@ class Compose:
         i = web.input(to="", cc="", bcc="", subject="", tags="", message="")
         resp = "success"
         try:            
-            message = "%s [%s]" % (i.message, i.tags)
-            mailman = Mailer()
-            mailman.sendmail(sender=session().email, subject=i.subject,
-                             recipients=[i.to], msg=message)
+            if 'passwd' in session() and session().passwd:
+                message = unescape_html("%s [%s]" % (i.message, i.tags) \
+                                            if i.tags else i.message)
+                mailman = Mailman(session()['email'], session()['passwd'])
+                mailman.sendmail(sender=session().email, subject=i.subject,
+                                 recipients=[i.to], msg=message, fmt="html")
+            else:
+                raise Exception("Email not sent, account credentials " \
+                                    "could not be verified.")
         except Exception as e:
             return e
             resp = "failure"

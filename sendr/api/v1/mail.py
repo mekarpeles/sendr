@@ -2,20 +2,30 @@
 """
     mail.py [model.v1]
     ~~~~~~~
-    Contains all of the logic for retrieving and organizing emails
+
+    Contains logic for retrieving, organizing, and sending emails.
 
     :copyright: (c) 2012 by Mek
     :license: BSD, see LICENSE for more details.
 """
 
 import imaplib
-from stdlib.utils.util import objectify_email
+import smtplib
+import xml.sax.saxutils as saxutils
+from email.mime.multipart import MIMEMultipart
+from email.MIMEText import MIMEText
+from email import Encoders, message_from_string
+import requests
+from configs.config import MAIL_API
 
 RFC = {"imap.gmail.com": "822",
        "imap.mail.yahoo.com": "822"
        }
 
-class Mail(object):
+def unescape_html(x):
+    return saxutils.unescape(x)
+
+class Mailbox(object):
 
     def __init__(self, email, passwd, imap='imap.gmail.com'):
         self.imap = imap
@@ -27,30 +37,37 @@ class Mail(object):
     def __getstate__(self):
         return self.__dict__.copy()
 
+    def objectify_email(raw_email):
+        """Turns email raw string into an email object"""
+        return message_from_string(raw_email)
+
     def login(self, email, passwd):
         self.mail.login(email, passwd)
 
     def folders(self):
-        """list of "folders" aka labels in gmail."""
+        """list "folders" aka labels in gmail."""
         return self.mail.list()
 
     def switch(self, box="inbox"):
-        """connect to inbox"""
+        """Switch mailboxes, e.g. connect to inbox"""
         status, count = self.mail.select("inbox")
         return status, count
 
     @property
     def uids(self):
-        """Returns all the uids associated with a folder/box"""
+        """Returns all the mail uids (unique identifiers) associated
+        with a folder/box"""
         result, data = self.mail.uid('search', None, "ALL")
         uids = data[0].split()
         return uids
 
     def read(self, uid):
+        """
+        """
         result, data = self.mail.fetch(uid, "(RFC%s)" % RFC[self.imap])
         if not data == [None]:
             raw_email = data[0][1] # email body, raw text of email            
-            email = objectify_email(raw_email)
+            email = self.objectify_email(raw_email)
             email['Uid'] = uid
             email['Content'], email['Tags'] = \
                 self.parse_email_body(self.email_body(email))
@@ -96,7 +113,7 @@ class Mail(object):
                     offset-=1
                 else:
                     raw_email = data[0][1] # email body, raw text of email
-                    email = objectify_email(raw_email)
+                    email = self.objectify_email(raw_email)
                     email['Content'] = self.email_body(email)
                     results.append({"uid": uid,
                                     "index": ii,
@@ -121,3 +138,62 @@ class Mail(object):
         elif maintype == 'text':
             return email_message_instance.get_payload()
 
+
+class Mailman(object):
+    """Send mail via smtp (default gmail) or mailgun
+    usage:
+    >>> from api.v1.mail import Mailer
+    >>> mailman = Mailer('mekarpeles@gmail.com', '********')
+    >>> mailman.sendmail(mailman.email, recipients=['michael.karpeles@gmail.com'],
+    ...                  subject='foobarbaz', msg='<b>test</b>', fmt="html")
+    {}
+    """
+
+    def __init__(self, email, passwd, host='smtp.gmail.com', port=587):
+        self.email = email
+        self.server = smtplib.SMTP(host, port)
+        self.server.ehlo()
+        self.server.starttls()
+        self.server.ehlo()
+        self.server.login(email, passwd)
+
+    def sendmail(self, sender, recipients='', subject="", msg="",
+                 fmt="", method="smtp"):
+        func = getattr(self, method, method)
+        return func(sender, recipients, subject=subject, msg=msg, fmt=fmt)
+
+    def smtp(self, sender, recipients='', subject="", msg="",
+             fmt="", attatchment=None):
+        mail = MIMEText() if not fmt else MIMEMultipart('alternative')
+        mail['From'] = sender
+        mail['To'] = ', '.join(recipients)
+        mail['Subject'] = subject
+        if not fmt:
+            mail.attach(MIMEText(msg, 'plain'))
+        else:
+            mail.attach(MIMEText(msg, 'html'))
+        return self.server.sendmail(sender, recipients, mail.as_string())
+
+    @classmethod
+    def mailgun(cls, sender, recipients='', subject="", msg="", fmt="text"):
+        """
+        >>> from sendr_stdlib.api.v1.mail import Mailer;
+        >>> r = Mailer.mailgun("email@org.com", subject="",
+        ...                    recipients=["recipient@org.com"],
+        ...                    msg="<p><strong>Salutations!</strong>" \
+        ...                        "What's going on?</p>",
+        ...                    fmt="html")
+        >>> r.text
+        u'{\n  "message": "Queued. Thank you.",\n
+        "id": "<20120328062856.20096.24811@org.com>"\n}'        
+        """
+        r = requests.\
+                 post((MAIL_API['url'] + MAIL_API['domain'] + "/messages"),
+                      auth=("api", MAIL_API['key']),
+                      data={"from": sender,
+                            "to": recipients,
+                            "subject": subject,
+                            format: msg
+                            }
+                      )
+        return r

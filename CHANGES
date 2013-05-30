@@ -1,0 +1,7 @@
+v.0.0.11 Thu 30 May 2013 -- Jumbo Jet
+- Cargo Crate will be the next version
+- Refactored model into API
+- added gmail sendmail features through smtp
+- added scripts/sendr placeholder for managing sendr service / server
+- Project works without requiring config files (.cfg's optional)
+
