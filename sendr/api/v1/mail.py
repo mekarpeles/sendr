@@ -37,7 +37,8 @@ class Mailbox(object):
     def __getstate__(self):
         return self.__dict__.copy()
 
-    def objectify_email(raw_email):
+    @classmethod
+    def objectify_email(cls, raw_email):
         """Turns email raw string into an email object"""
         return message_from_string(raw_email)
 
