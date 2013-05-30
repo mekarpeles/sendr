@@ -11,7 +11,6 @@
 """
 
 from waltz import web, render, slender, session
-from model.v1.mail import Mail
 
 class Login:
     def GET(self):
