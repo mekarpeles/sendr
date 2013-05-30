@@ -15,7 +15,7 @@ from distutils.core import setup
 
 setup(
     name='sendr',
-    version='0.0.1',
+    version='0.0.11',
     url='http://github.com/mekarpeles/sendr',
     author='mek',
     author_email='michael.karpeles@gmail.com',
@@ -29,7 +29,7 @@ setup(
     platforms='any',
     license='LICENSE',
     install_requires=[
-        'waltz >= 0.1.64',
+        'waltz >= 0.1.7',
         'lepl >= 5.1.3',
     ],
     description="Sendr semantic email client",
