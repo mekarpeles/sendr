@@ -66,5 +66,16 @@ def database():
     except:
         return None
 
+def emailer():
+    """Needs to be refactored to accommodate smtp and mailgun"""
+    config_mail = makeconf('%s/mail.cfg' % path)
+    return {'service': config_mail.getdef('mailapi', 'service', 'smtp'),
+            'url': config_mail.getdef('mailapi', '', 'smtp.gmail.com'),
+            'key': config_mail.getdef('mailapi', '', ''),
+            'port': config_mail.getdef('mailapi', 'port', 587),
+            'domain': config_mail.getdef('mailapi', 'domain', '')
+            }
+
+MAIL_API = emailer()
 SERVER = server()
 db = database()
