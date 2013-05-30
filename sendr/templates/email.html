@@ -3,7 +3,7 @@ $def with (uid, email=None, email_list=None)
 <div class="container">
   $if email_list:
     $for email in email_list:
-      <h1>$email['Subject'] <span class="date">$email['Date']</span></h1>    
+      <h1 class="subject">$email['Subject'] <span class="date">$email['Date']</span></h1>    
       <div class="well">
         <h3><strong>From:</strong> $email['From']</h3>
         <h3><strong>To:</strong> $email['To']</h3>
@@ -23,7 +23,7 @@ $def with (uid, email=None, email_list=None)
     <div class="email_opts">
       <a class="back btn" href="/emails">&#8617;</a>
     </div>
-    <h1>$email['Subject'] <span class="date">$email['Date']</span></h1>    
+    <h1 class="subject">$email['Subject'] <span class="date">$email['Date']</span></h1>    
     <div class="well">
       <h3><strong>From:</strong> $email['From']</h3>
       <h3><strong>To:</strong> $email['To']</h3>

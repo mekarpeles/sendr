@@ -15,6 +15,7 @@ from api.v1.mail import Mailbox, Mailman, unescape_html
 
 class Index:
     def GET(self):
+        """Homepage which lists received emails / mailbox"""
         i = web.input(response="")
         if getattr(session(), 'passwd', None):            
             raise web.seeother('/emails?page=0&limit=10')
