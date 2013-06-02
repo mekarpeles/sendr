@@ -27,7 +27,7 @@ h1.logo {
     position: relative;
     color: #fff;
     text-shadow: 0px 1px 1px #00a;
-    font-size: 1.7em;
+    font-size: 28px;
     margin: 0px;
     margin-left: 50px;
     padding: 0px 0px 2px 15px;
@@ -69,12 +69,12 @@ h1.logo {
 
 #search {
     background-color: #fff;
-    padding: 8px 10px;
+    padding: 9px 10px;
     position: relative;
-    left: -10px;
-    top: 6px;
+    left: -7px;
+    top: 0px;
     width: 300px;
-    height: 6px;
+    height: 15px;
     border: 1px solid #258;
     border-top: 1px solid #147;
     display: inline;
@@ -85,9 +85,11 @@ h1.logo {
 }
 
 header {    
+    padding-top: 5px;
     background-color: #369;
     border-bottom: 1px solid #258;
     margin-bottom: 20px;
+    height: 40px;
 }
 
 input[type="text"] {
@@ -119,6 +121,12 @@ ol {
 
 }
 
+.menu-left {
+    width: 275px;
+    background-color: #f9f9f9;
+    float: left;
+}
+
 .email_opts {
     float: left;
     margin-right: 15px;
@@ -126,14 +134,14 @@ ol {
 }
 
 ol.emails {
+    float: left;
     list-style-type: none;
 }
 
 ol.emails li {
     width:700px;
-    background-color: #f6f6f6;
     border-top: 1px solid #eee;
-    padding: 5px 5px;
+    padding: 12px 5px;
 }
 
 ol.emails li:odd {
