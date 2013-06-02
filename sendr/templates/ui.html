@@ -1,15 +1,29 @@
 $def with (emails=[], resp="", page=0, limit=10)
 
-<div>
   $if resp:
     <div class="alert">$resp</div>
     <br/>
+
   <div class="alert">
-    <div>@michaelkarpeles was mentioned 10 times</div>
-    <div>3 birthdays today</div>
-    <div>5 appointments on your calendar</div>
-    <div>3 critical emails</div>
+    $#alerts
   </div>
+
+  <div class="menu-left">
+    <div>
+      <div class="container">
+	<div class="select-menu account-switcher js-menu-container js-select-menu">
+	  <span class="minibutton select-menu-button with-gravatar js-menu-target">
+	    <div class="select-menu-button-gravatar js-select-button-gravatar">
+	      <img height="20" src="" width="20">
+	    </div>
+	    <span class="js-select-button">$session['email']</span>
+	  </span>
+	</div> <!-- /.select-menu-modal -->
+      </div> <!-- /.select-menu-modal-holder -->
+    </div> <!-- /.select-menu -->    
+  </div>
+  <div class="clearfixt"></div>
+
   <form action="/" method="POST">
     <ol class="emails">
       <li>
