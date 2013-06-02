@@ -13,7 +13,7 @@ $def with (uid, email=None, email_list=None)
               <em>$:(tag)</em>
           </h3>
       </div>
-      $:(email['Content'])
+      <pre>$:(email['Content'])</pre>
       <br/>
       <form action="/compose" method="POST">
         <a href="/compose?reply=$email['Uid']" class="btn btn-danger">Reply</a>
@@ -33,7 +33,7 @@ $def with (uid, email=None, email_list=None)
             <em>$:(tag)</em>
         </h3>
   </div>
-    $:(email['Content'])
+    <pre>$:(email['Content'])</pre>
     <br/>
     <form action="/compose" method="POST">
       <a href="/compose?reply=$uid" class="btn btn-danger">Reply</a>
