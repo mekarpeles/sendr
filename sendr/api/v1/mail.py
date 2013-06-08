@@ -11,11 +11,12 @@
 
 import imaplib
 import smtplib
+import requests
 import xml.sax.saxutils as saxutils
 from email.mime.multipart import MIMEMultipart
 from email.MIMEText import MIMEText
 from email import Encoders, message_from_string
-import requests
+from waltz import session
 from configs.config import MAIL_API
 
 RFC = {"imap.gmail.com": "822",
@@ -25,8 +26,7 @@ RFC = {"imap.gmail.com": "822",
 def unescape_html(x):
     return saxutils.unescape(x)
 
-class Mailbox(object):
-
+class Server(object):
     def __init__(self, email, passwd, imap='imap.gmail.com'):
         self.imap = imap
         self.mail = imaplib.IMAP4_SSL(self.imap)
@@ -55,10 +55,10 @@ class Mailbox(object):
         return status, count
 
     @property
-    def uids(self):
+    def uids(self, uids="ALL", limit=10):
         """Returns all the mail uids (unique identifiers) associated
         with a folder/box"""
-        result, data = self.mail.uid('search', None, "ALL")
+        result, data = self.mail.uid('search', None, uids)[:limit]
         uids = data[0].split()
         return uids
 
@@ -92,8 +92,9 @@ class Mailbox(object):
             return []
 
         if len(parsed_body) == 1:
+            print "foo"
             # no Tags were found
-            return raw_body, None
+            return raw_body, []
 
         # Remove trailing square bracket, if present
         tag_string = parsed_body[-1]
@@ -139,6 +140,9 @@ class Mailbox(object):
         elif maintype == 'text':
             return email_message_instance.get_payload()
 
+class Mailbox(Server):
+    def __init__(self):
+        super(Mailbox, self).__init__(session().email, session().passwd, session().imap)
 
 class Mailman(object):
     """Send mail via smtp (default gmail) or mailgun
