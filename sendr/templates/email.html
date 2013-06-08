@@ -2,21 +2,21 @@ $def with (uid, email=None, email_list=None)
 
 <div class="container">
   $if email_list:
-    $for email in email_list:
-      <h1 class="subject">$email['Subject'] <span class="date">$email['Date']</span></h1>    
+    $for mail in email_list:
+      <h1 class="subject">$mail['Subject'] <span class="date">$mail['Date']</span></h1>    
       <div class="well">
-        <h3><strong>From:</strong> $email['From']</h3>
-        <h3><strong>To:</strong> $email['To']</h3>
-        $if email['Tags']:
+        <h3><strong>From:</strong> $mail['From']</h3>
+        <h3><strong>To:</strong> $mail['To']</h3>
+        $if mail['Tags']:
           <h3><strong>Tags:</strong>
-            $for tag in email['Tags']:
+            $for tag in mail['Tags']:
               <em>$:(tag)</em>
           </h3>
       </div>
-      <pre>$:(email['Content'])</pre>
+      <pre>$:(mail['Content'])</pre>
       <br/>
       <form action="/compose" method="POST">
-        <a href="/compose?reply=$email['Uid']" class="btn btn-danger">Reply</a>
+        <a href="/compose?reply=$mail['Uid']" class="btn btn-danger">Reply</a>
       </form>
 
   $elif email:
@@ -32,7 +32,7 @@ $def with (uid, email=None, email_list=None)
           $for tag in email['Tags']:
             <em>$:(tag)</em>
         </h3>
-  </div>
+    </div>
     <pre>$:(email['Content'])</pre>
     <br/>
     <form action="/compose" method="POST">
