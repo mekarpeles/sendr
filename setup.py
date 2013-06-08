@@ -31,6 +31,7 @@ setup(
     install_requires=[
         'waltz >= 0.1.7',
         'lepl >= 5.1.3',
+        'requests >= 1.2.3'
     ],
     description="Sendr semantic email client",
     long_description=open(os.path.join(os.path.dirname(__file__),
