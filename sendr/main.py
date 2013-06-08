@@ -15,15 +15,11 @@
 import waltz
 from configs.config import SERVER
 
-urls = ('/compose/?', 'routes.index.Compose',
-        '/emails/(.+)', 'routes.index.Email',
-        '/emails/?', 'routes.index.Email',
+urls = ('/compose/?', 'routes.email.Compose',
+        '/emails/(.+)', 'routes.email.Read',
+        '/emails/?', 'routes.email.Inbox',
         '/login/?', 'routes.auth.Login',
         '/logout/?', 'routes.auth.Logout',
-        '/contacts/(.+)/?', 'routes.index.Contacts',
-        '/contacts/?', 'routes.index.Contacts',
-        '/tagemail/?', 'routes.index.TagEmail',
-        '/tagemail/(.+)', 'routes.index.TagEmail',
         '/', 'routes.index.Index')
 
 # Default values for new client sessions
