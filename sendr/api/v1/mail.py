@@ -54,13 +54,16 @@ class Server(object):
         status, count = self.mail.select("inbox")
         return status, count
 
-    @property
-    def uids(self, uids="ALL", limit=10):
+    def _uids(self, uids="ALL", limit=10):
         """Returns all the mail uids (unique identifiers) associated
         with a folder/box"""
         result, data = self.mail.uid('search', None, uids)[:limit]
         uids = data[0].split()
         return uids
+
+    @property
+    def uids(self):
+        return self._uids()
 
     def read(self, uid):
         """
