@@ -22,8 +22,8 @@ setup(
     packages=[
         'sendr',
         'sendr/test',
-        'sendr/model',
-        'sendr/model/v1',
+        'sendr/api',
+        'sendr/api/v1',
         'sendr/subapps'
         ],
     platforms='any',
